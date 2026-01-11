@@ -1,0 +1,27 @@
+{
+    "name": "cowre",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon index.js",
+        "migrate": "node scripts/migrations.js up",
+        "migrate:undo": "node scripts/migrations.js down",
+        "seed:all": "npx sequelize-cli db:seed:all",
+        "seed:undo": "npx sequelize-cli db:seed:undo:all", 
+        "handlerize": "node scripts/handlers.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@hapi/boom": "^10.0.1",
+        "bcrypt": "^6.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "jsonwebtoken": "^9.0.3",
+        "multer": "^2.0.2",
+        "pg": "^8.16.3",
+        "sequelize": "^6.37.7"
+    }
+}
