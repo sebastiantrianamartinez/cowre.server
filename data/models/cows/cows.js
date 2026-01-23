@@ -79,6 +79,10 @@ class Cow extends Model {
         foreignKey: 'donor',
         constraints: false,
         });
+        this.belongsTo(models.Race, {
+        as: 'raceData',
+        foreignKey: 'race',
+        });
     }
     static config(sequelize) {
         return {

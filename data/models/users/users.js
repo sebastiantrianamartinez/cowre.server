@@ -58,6 +58,12 @@ class User extends Model {
         foreignKey: 'staff',
         constraints: false,
         });
+        this.hasOne(models.Group, {
+            as: 'groupData',
+            foreignKey: 'id',
+            sourceKey: 'group',
+            constraints: false,
+        })
     }
 
     static config(sequelize) {

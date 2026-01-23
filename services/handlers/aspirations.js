@@ -14,12 +14,18 @@ class AspirationHandler extends BaseHandler {
             order: [['id', 'DESC']]
         });
 
+        console.log('Last aspiration session:', lastSession?.uuid);
+
+        const uuid = lastSession ? parseInt(lastSession.uuid) + 1 : 1;
+        console.log('Creating new aspiration session with UUID:', uuid);
+
         const session = await models.Session.create({
+            table: 'aspirations',
+            uuid,
             staff,
             farm,
             createdAt: date,
-            table: 'aspirations',
-            uuid: lastSession ? parseInt(lastSession.uuid) + 1 : 1
+            updatedAt: new Date()
         });
         
         return session;

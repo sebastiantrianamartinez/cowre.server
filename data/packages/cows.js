@@ -17,6 +17,13 @@ class Cow {
         this.packaged.number = cow.number;
         this.packaged.sex = cow.sex == 1 ? 'Hembra' : 'Macho';
         this.packaged.race = cow.raceData ? cow.raceData.name : null;
+
+        if(cow.farm){
+            this.addFarm(cow.farm);
+        }
+        if(cow.stats){
+            this.addStats(cow.stats);
+        }
     }
 
     addFarm(farm){
@@ -37,3 +44,5 @@ class Cow {
         return this.packaged;
     }
 }
+
+module.exports = Cow;

@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const Sequelize = require('sequelize');
 
 const TABLE = 'races';
 
@@ -17,18 +18,17 @@ const RacesSchema = {
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    createdAt: {
-        type: DataTypes.DATE,
+    created_at: {
         allowNull: false,
-        field: 'created_at',
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
     },
-    updatedAt: {
-        type: DataTypes.DATE,
+    updated_at: {
         allowNull: false,
-        field: 'updated_at',
-        defaultValue: DataTypes.NOW,      
-    }
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
+    },
+
 }
 
 class Race extends Model {
@@ -44,6 +44,8 @@ class Race extends Model {
             tableName: TABLE,
             timestamps: true,       
             modelName: 'Race',
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
         }
     }
 }

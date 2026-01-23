@@ -1,8 +1,10 @@
 const express = require("express");
 const CowHandler = require("../../../services/handlers/cows");
+const CowsAssembler = require("../../../services/assemblers/cows");
 
 const router = express.Router();
 const handler = new CowHandler();
+const assembler = new CowsAssembler();
 
 router.post("/", async (req, res) => {
     try {
@@ -65,7 +67,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const cowId = req.params.id;
-        const cow = await handler.findById(cowId);
+        const cow = await assembler.assembleById(cowId);
+        //const cow = await handler.findById(cowId);
 
         if (!cow) {
             return res.status(404).json({ error: "Cow not found." });
@@ -73,6 +76,7 @@ router.get("/:id", async (req, res) => {
 
         res.status(200).json(cow);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Failed to retrieve cow record." });
     }
 });

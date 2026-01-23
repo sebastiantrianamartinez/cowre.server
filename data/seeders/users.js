@@ -35,7 +35,7 @@ module.exports = {
                     username: 'cristian.ospina',
                     email: 'cristian@gmail.com',
                     password: '$2a$12$Z4CnxAqmBrDKKq3/ZWmvoOmTJqrleVcvWbdwuBLs9ohDIhS.Nxg12',
-                    group: 1,
+                    group: 4,
                     status: 2,
                     createdAt: new Date(),
                     updatedAt: new Date(),

@@ -22,6 +22,16 @@ class UserHandler extends BaseHandler {
 
         return user;
     }
+
+    async findByRole(role) {
+        const users = await this.model.findAll({
+            where: { group: role }
+        });
+
+        console.log(`Found ${users.length} users with role ${role}`);
+        return users;
+        
+    }
 }
 
 module.exports = UserHandler;

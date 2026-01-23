@@ -11,11 +11,16 @@ const manager = new AspirationManager();
 
 router.post('/session/init', async (req, res) => {
     const { staff, farm, date } = req.body;
-
-    console.log('Initializing aspiration session for staff:', staff, 'farm:', farm, 'date:', date);
-
-    const session = await handler.createSession(staff, farm, new Date(date || Date.now()));
-    return res.json({ session });
+    
+    try{
+        console.log('Initializing aspiration session for staff:', staff, 'farm:', farm, 'date:', date);
+        const session = await handler.createSession(staff, farm, new Date(date || Date.now()));
+        return res.json({ session });
+    }
+    catch(err) {        
+        console.error('Error initializing session:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 router.post('/session/save', async (req, res) => {
