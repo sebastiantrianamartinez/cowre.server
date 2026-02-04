@@ -8,6 +8,11 @@ class CowsAssembler {
         this.models = models; 
     }
 
+    async assembleForTransfer(cowId) {
+        await this.#loadCow(cowId);
+        return this.cow.build();
+    }
+
     async assembleById(cowId) {
         await this.#loadCow(cowId);
         await this.#loadStats(cowId);

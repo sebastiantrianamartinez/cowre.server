@@ -2,6 +2,10 @@ const { Model, DataTypes } = require('sequelize');
 
 const TABLE = 'clivages';
 
+/*
+    estado: bx - bi - bl - degenerados - b - bn 
+*/
+
 const ClivagesSchema = {
     id: {
         type: DataTypes.INTEGER,
@@ -21,11 +25,7 @@ const ClivagesSchema = {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
-    morulas: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    blastocysts: {
+    embryos: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
@@ -37,8 +37,8 @@ const ClivagesSchema = {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    place: {
-        type: DataTypes.INTEGER,
+    stages: {
+        type: DataTypes.JSON,
         allowNull: true,
     },
     remarks: {

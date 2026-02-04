@@ -34,8 +34,8 @@ const EmbryosSchema = {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    state: {
-        type: DataTypes.INTEGER,
+    stage: {
+        type: DataTypes.STRING,
         allowNull: false,
     },
     sex: {
