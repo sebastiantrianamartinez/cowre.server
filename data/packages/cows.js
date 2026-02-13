@@ -7,7 +7,9 @@ class Cow {
             sex: null,
             race: null, 
             farm: {},
-            stats: {}
+            stats: {},
+            shares: [],
+            management: null
         };
     }
 
@@ -38,6 +40,18 @@ class Cow {
 
     addStats(stats){
         this.packaged.stats = stats;
+    }
+
+    addShares(shares){
+        this.packaged.shares = shares.map(share => ({
+            id: share.id,
+            percent: share.percent,
+            owner: share.ownerData
+        }));
+
+        if(shares.length > 0){
+            this.packaged.management = shares[0].remarks?.management || null;
+        }
     }
 
     build(){

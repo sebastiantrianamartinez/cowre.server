@@ -37,4 +37,17 @@ router.get('/session/:session', async (req, res) => {
     return res.json(opus);
 });
 
+router.get('/sessions', async (req, res) => {
+    const sessions = await handler.getAllSessions();
+    const opus = [];
+
+    for (const session of sessions) {
+        const assemblerInstance = new AspirationAssembler();
+        const assembled = await assemblerInstance.assembleBySession(session.uuid);
+        opus.push(assembled);
+    }
+    
+    return res.json(opus);
+});
+
 module.exports = router;

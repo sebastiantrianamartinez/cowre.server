@@ -83,6 +83,10 @@ class Cow extends Model {
         as: 'raceData',
         foreignKey: 'race',
         });
+        this.hasMany(models.Share, {
+        as: 'shares',
+        foreignKey: 'cow',
+        });
     }
     static config(sequelize) {
         return {

@@ -23,6 +23,33 @@ class FarmHandler extends BaseHandler {
             }
         });
     }
+
+    async searchByOwner(ownerId, query) {
+        if(!query || typeof query !== 'string' || query.trim() === '') {
+            return [];
+        }
+        const { Op } = require('sequelize');
+        
+        const normalizedQuery = query.trim().replace(/\s+/g, '%');
+        
+        return await this.model.findAll({
+            where: {
+                owner: ownerId,
+                [Op.or]: [
+                    { name: { [Op.iLike]: `%${normalizedQuery}%` } },
+                    { remarks: { [Op.iLike]: `%${normalizedQuery}%` } }
+                ]
+            }
+        });
+    }
+
+    async findByOwner(ownerId) {
+        return await this.model.findAll({
+            where: {
+                owner: ownerId
+            }
+        });
+    }
 }
 
 module.exports = FarmHandler;

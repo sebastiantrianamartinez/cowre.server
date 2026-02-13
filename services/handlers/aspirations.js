@@ -30,6 +30,15 @@ class AspirationHandler extends BaseHandler {
         
         return session;
     }
+
+    async getAllSessions() {
+        const sessions = await models.Session.findAll({
+            where: { table: 'aspirations' },
+            order: [['id', 'DESC']]
+        });
+
+        return sessions;
+    }
 }
 
 module.exports = AspirationHandler;

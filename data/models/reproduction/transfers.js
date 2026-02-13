@@ -17,29 +17,9 @@ const TransfersSchema = {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    ovary: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    corpus: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    size: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
     date: {
         type: DataTypes.DATE,
         allowNull: false
-    },
-    difficulty: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    medication: {
-        type: DataTypes.INTEGER,
-        allowNull: true
     },
     vet: {
         type: DataTypes.INTEGER,
@@ -55,7 +35,7 @@ const TransfersSchema = {
         allowNull: true
     },
     remarks: {
-        type: DataTypes.TEXT,
+        type: DataTypes.JSON,
         allowNull: true
     },
     dx1_date: {
@@ -69,6 +49,10 @@ const TransfersSchema = {
     due_date: {
         type: DataTypes.DATE,
         allowNull: true
+    },
+    session: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
     createdAt: {
         type: DataTypes.DATE,

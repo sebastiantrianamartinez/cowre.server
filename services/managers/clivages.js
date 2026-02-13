@@ -64,7 +64,8 @@ class ClivageManager {
             bn: 2,
             bx: 3,
             bi: 4,
-            bl: 5
+            bl: 5,
+            mo: 6
         };
 
         const embryosToCreate = [];

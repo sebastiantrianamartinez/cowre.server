@@ -32,6 +32,24 @@ class UserHandler extends BaseHandler {
         return users;
         
     }
+
+    async search(query, filter) {
+        const where = {};
+
+        if (query) {
+            where[Op.or] = [
+                { name: { [Op.iLike]: `%${query}%` } },
+                { phone: { [Op.iLike]: `%${query}%` } }
+            ];
+        }
+
+        if (filter && filter.group) {
+            where.group = filter.group;
+        }
+
+        const users = await this.model.findAll({ where });
+        return users;
+    }
 }
 
 module.exports = UserHandler;

@@ -93,4 +93,20 @@ router.get("/:limit/:offset", async (req, res) => {
     }
 });
 
+router.get("/shares/:id", async (req, res) => {
+    try {
+        const cowId = req.params.id;
+        const cow = await assembler.assembleForShares(cowId);
+
+        if (!cow) {
+            return res.status(404).json({ error: "Cow not found." });
+        }
+
+        res.status(200).json(cow);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to retrieve cow shares." });
+    }
+});
+
 module.exports = router;

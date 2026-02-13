@@ -164,6 +164,15 @@ class BaseHandler {
         console.error('Error inesperado en base de datos:', error);
         return boom.internal('Error inesperado en base de datos');
     }
+
+    async bulkCreate(records) {
+        try {
+            const createdRecords = await this.model.bulkCreate(records);
+            return this._sanitize(createdRecords);
+        } catch (error) {
+            throw this.processDbError(error);
+        }
+    }   
     
 }
 

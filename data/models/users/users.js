@@ -63,7 +63,17 @@ class User extends Model {
             foreignKey: 'id',
             sourceKey: 'group',
             constraints: false,
-        })
+        });
+        this.hasMany(models.Aspiration, {
+            as: 'aspirations',
+            foreignKey: 'donor',
+            constraints: false,
+        });
+        this.hasMany(models.Transfer, { 
+            as: 'vetTransfers',
+            foreignKey: 'vet',
+            constraints: false,
+        });
     }
 
     static config(sequelize) {

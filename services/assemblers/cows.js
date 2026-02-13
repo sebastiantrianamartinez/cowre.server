@@ -13,9 +13,16 @@ class CowsAssembler {
         return this.cow.build();
     }
 
+    async assembleForShares(cowId) {
+        await this.#loadCow(cowId);
+        await this.#loadShares(cowId);
+        return this.cow.build();
+    }
+
     async assembleById(cowId) {
         await this.#loadCow(cowId);
         await this.#loadStats(cowId);
+        await this.#loadShares(cowId);
         return this.cow.build();
     }
 
@@ -131,6 +138,21 @@ class CowsAssembler {
                 averageEfficiency: averageEfficiency.toFixed(2),
             },
         });
+    }
+
+    async #loadShares(cowId) {
+        const shares = await this.models.Share.findAll({
+            where: { cow: cowId },
+            include: [
+                {
+                    model: this.models.User,
+                    as: 'ownerData',
+                    attributes: ['id', 'name']
+                }
+            ]
+        });
+
+        this.cow.addShares(shares);
     }
 
 }
