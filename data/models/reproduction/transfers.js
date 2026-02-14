@@ -9,12 +9,20 @@ const TransfersSchema = {
         allowNull: false,
         autoIncrement: true
     },
+    opu: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    index: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     embryo: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
     recipient: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     date: {
