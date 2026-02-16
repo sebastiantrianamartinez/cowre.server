@@ -12,6 +12,7 @@ class AspirationsAssembler {
         await this.#loadSession(sessionId);
         const aspirationIds = await this.#loadAspirations(sessionId);
         await this.#loadClivages(aspirationIds);
+        await this.#loadTransfers(sessionId);
         return this.aspiration.build();
     }
 
@@ -65,6 +66,23 @@ class AspirationsAssembler {
 
         this.aspiration.addClivages(clivages);
     }
+
+    async #loadTransfers(opuId) {
+        console.log('Loading transfers for OPUSession:', opuId);
+        const transfers = await this.models.Transfer.findAll({
+            where: { opu: opuId },
+            include: [
+                {
+                    model: this.models.Embryo,
+                    as: 'embryoData'
+                }
+            ],
+            order: [['index', 'ASC']]
+        });
+
+        this.aspiration.addTransfers(transfers);
+    }
+
 }
 
 module.exports = AspirationsAssembler;

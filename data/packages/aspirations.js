@@ -46,6 +46,10 @@ class Aspiration {
         this.packaged.clivages = clivages;
     }
 
+    addTransfers(transfers) {
+        this.packaged.transfers = transfers;
+    }
+
     build() {
         return this.packaged;
     }

@@ -54,6 +54,14 @@ const TransfersSchema = {
         type: DataTypes.DATE,
         allowNull: true
     },
+    dx1: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    dx2: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     due_date: {
         type: DataTypes.DATE,
         allowNull: true
@@ -77,6 +85,13 @@ const TransfersSchema = {
 };
 
 class Transfer extends Model {
+    static associate(models) {
+        this.belongsTo(models.Embryo, {
+            foreignKey: 'embryo',
+            as: 'embryoData'
+        });
+
+    }
     static config(sequelize) {
         return {
             sequelize,
