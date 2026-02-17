@@ -32,6 +32,16 @@ class BaseHandler {
             throw this.processDbError(error);
         }
     }
+    
+    async findById(id) {
+        try {
+            const found = await this.model.findByPk(id);
+            if (!found) throw boom.notFound('Recurso no encontrado');
+            return this._sanitize(found);
+        } catch (error) {
+            throw this.processDbError(error);
+        }
+    }
 
     async findActive(){
         return this.model.findAll({ where: { status: 2 } });

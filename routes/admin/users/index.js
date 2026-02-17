@@ -72,6 +72,9 @@ router.get('/:id', async (req, res) => {
     try {
         const userId = req.params.id;
         const user = await handler.findById(userId);
+        const farms = await farmHandler.findByOwner(userId);
+
+        user.farms = farms;
         res.status(200).json(user);
     }
     catch (error) {
@@ -101,6 +104,46 @@ router.get('/farms/owner/:ownerId', async (req, res) => {
     catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to retrieve farms by owner.' });
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const payload = req.body;
+        const farms = payload.farms || [];
+
+        delete payload.farms;
+        payload.id = userId;
+        const updatedUser = await handler.update(payload);
+        console.log('user updated:', updatedUser);
+
+    if(farms && Array.isArray(farms)) {
+        for(const farm of farms) {
+            if(farm.size == ''){
+                delete farm.size;
+            }
+
+            if(farm.id) {
+                await farmHandler.update(farm.id, farm);
+            }
+
+            else {
+                farm.owner = userId;
+                console.log('Creating new farm for user:', farm);
+                await farmHandler.create(farm);
+            }
+        }
+    }
+
+        res.status(200).json({
+            data: updatedUser,
+            details: req.body?.details || null
+        });
+    }   
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update user.' });
     }
 });
 

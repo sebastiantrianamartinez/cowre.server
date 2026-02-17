@@ -65,6 +65,19 @@ const EmbryosSchema = {
 }
 
 class Embryo extends Model {
+    static associate(models) {
+        this.belongsTo(models.Clivage, {
+            foreignKey: 'clivage',
+            as: 'clivageData'
+        });
+
+        this.belongsTo(models.Aspiration, {
+            foreignKey: 'aspiration',
+            as: 'aspirationData'
+        });
+
+    }
+        
     static config(sequelize) {
         return {
             sequelize,
