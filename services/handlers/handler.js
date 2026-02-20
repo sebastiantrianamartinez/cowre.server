@@ -76,6 +76,15 @@ class BaseHandler {
         }
     }
 
+    async findAllActive() {
+        try {
+            const list = await this.model.findAll({ where: { status: 2 } });
+            return this._sanitize(list);
+        } catch (error) {
+            throw this.processDbError(error);
+        }
+    }
+
     async upsert(data, where) {
         try {
             const [instance, created] = await this.model.upsert(

@@ -12,6 +12,7 @@ class Aspiration {
     addSession(session) {
         this.packaged.session = {
             id: session?.uuid,
+            uuid: session?.uuid,
             remarks: session?.remarks,
             date: session?.createdAt,
             updated: session?.updatedAt

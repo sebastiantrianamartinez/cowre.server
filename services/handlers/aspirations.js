@@ -39,6 +39,26 @@ class AspirationHandler extends BaseHandler {
 
         return sessions;
     }
+
+    async deleteSession(sessionId) {
+        const session = await models.Session.findOne({
+            where: { table: 'aspirations', uuid: sessionId }
+        });
+
+        if (!session) {
+            throw new Error('Session not found');
+        }
+
+        const aspirations = await this.model.findAll({ where: { session: session.uuid } });
+        for (const aspiration of aspirations) {
+            await aspiration.destroy();
+        }
+       
+        session.remarks = { deleted: true, deletedAt: new Date() };
+        await session.save();
+
+        return true;
+    }
 }
 
 module.exports = AspirationHandler;

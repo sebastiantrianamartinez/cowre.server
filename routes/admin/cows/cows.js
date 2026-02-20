@@ -6,6 +6,12 @@ const router = express.Router();
 const handler = new CowHandler();
 const assembler = new CowsAssembler();
 
+const statusMap = {
+    inactive: 1,
+    active: 2,
+    deleted: 0
+}
+
 router.post("/", async (req, res) => {
     try {
         const cowData = req.body;
@@ -23,7 +29,15 @@ router.post("/", async (req, res) => {
 
 router.post('/search', async (req, res) => {
     try {
-        const { query, filter } = req.body;
+        let { query, filter } = req.body;
+        if(filter){
+            filter.status = 2;
+        }
+        else {
+            filter = { status: 2 };
+        }
+        
+        console.log('Search query:', query, 'Filter:', filter);
         const results = await handler.search(query, filter);
         res.status(200).json(results);
     } catch (error) {
@@ -106,6 +120,44 @@ router.get("/shares/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Failed to retrieve cow shares." });
+    }
+});
+
+router.put("/activation/:id/:status", async (req, res) => {
+    try {
+        const cowId = req.params.id;
+        const status = statusMap[req.params.status];
+
+        console.log(`Changing status of cow ${cowId} to ${status} (${req.params.status})`);
+
+        const updatedCow = await handler.changeStatus(cowId, status);
+
+        res.status(200).json({
+            data: updatedCow,
+            details: req.body?.details || null
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to change cow status." });
+    }
+});
+
+router.put("/farm/move/:id/:farmId", async (req, res) => {
+    try {
+        const cowId = req.params.id;
+        const farmId = req.params.farmId;
+
+        console.log(`Moving cow ${cowId} to farm ${farmId}`);
+
+        const updatedCow = await handler.moveToFarm(cowId, farmId);
+
+        res.status(200).json({
+            data: updatedCow,
+            details: req.body?.details || null
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to move cow to new farm." });
     }
 });
 

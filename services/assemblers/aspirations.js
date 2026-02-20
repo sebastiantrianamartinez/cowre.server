@@ -9,11 +9,17 @@ class AspirationsAssembler {
     }
 
     async assembleBySession(sessionId) {
-        await this.#loadSession(sessionId);
-        const aspirationIds = await this.#loadAspirations(sessionId);
-        await this.#loadClivages(aspirationIds);
-        await this.#loadTransfers(sessionId);
-        return this.aspiration.build();
+        try {
+            await this.#loadSession(sessionId);
+            const aspirationIds = await this.#loadAspirations(sessionId);
+            await this.#loadClivages(aspirationIds);
+            await this.#loadTransfers(sessionId);
+            return this.aspiration.build();
+        }
+        catch(err) {
+            console.error('Error assembling OPUSession for session:', sessionId, err);
+        }
+       
     }
 
     async assembleBySessionForPreview(sessionId) {
@@ -24,7 +30,7 @@ class AspirationsAssembler {
 
     async #loadSession(sessionId) {
         const session = await this.models.Session.findOne({
-            where: { id: sessionId },
+            where: { uuid: sessionId, table: 'aspirations' },
             include: [
                 { model: this.models.User, as: 'vet' },
                 { model: this.models.Farm, as: 'farmData' }
@@ -67,10 +73,9 @@ class AspirationsAssembler {
         this.aspiration.addClivages(clivages);
     }
 
-    async #loadTransfers(opuId) {
-        console.log('Loading transfers for OPUSession:', opuId);
+    async #loadTransfers(sessionId) {
         const transfers = await this.models.Transfer.findAll({
-            where: { opu: opuId },
+            where: { session: sessionId },
             include: [
                 {
                     model: this.models.Embryo,

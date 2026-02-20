@@ -50,6 +50,18 @@ class UserHandler extends BaseHandler {
         const users = await this.model.findAll({ where });
         return users;
     }
+
+    async pseudoDelete(id) {
+        console.log(`Attempting to pseudo-delete user with ID: ${id}`);
+        const user = await this.model.findByPk(id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        user.status = 0;
+        await user.save();
+        return user;
+    }
 }
 
 module.exports = UserHandler;

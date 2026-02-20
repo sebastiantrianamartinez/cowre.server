@@ -14,15 +14,17 @@ class CowsAssembler {
     }
 
     async assembleForShares(cowId) {
-        await this.#loadCow(cowId);
+        const cow = await this.#loadCow(cowId);
         await this.#loadShares(cowId);
+        await this.#loadFarms(cow);
         return this.cow.build();
     }
 
     async assembleById(cowId) {
-        await this.#loadCow(cowId);
+        const cow = await this.#loadCow(cowId);
         await this.#loadStats(cowId);
         await this.#loadShares(cowId);
+        await this.#loadFarms(cow);   
         return this.cow.build();
     }
 
@@ -35,6 +37,7 @@ class CowsAssembler {
         });
 
         this.cow.addCow(cow);
+        return cow;
     }
 
     async #loadStats(cowId, startDate = null, endDate = null) {
@@ -153,6 +156,15 @@ class CowsAssembler {
         });
 
         this.cow.addShares(shares);
+    }
+
+    async #loadFarms(cow) {
+        const farmId = cow.control;
+
+        if (farmId && farmId > 0) {
+            const farm = await this.models.Farm.findByPk(farmId);
+            this.cow.addFarm(farm);
+        }
     }
 
 }

@@ -59,7 +59,7 @@ router.post('/search', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const users = await handler.findAll();
+        const users = await handler.findAllActive();
         res.status(200).json(users);
     }
     catch (error) {
@@ -144,6 +144,18 @@ router.put('/:id', async (req, res) => {
     catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to update user.' });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        await handler.pseudoDelete(userId);
+        res.status(200).json({ message: 'User deleted successfully.' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to delete user.' });
     }
 });
 

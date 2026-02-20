@@ -50,4 +50,17 @@ router.get('/sessions', async (req, res) => {
     return res.json(opus);
 });
 
+router.delete('/session/:session', async (req, res) => {
+    const { session } = req.params;
+
+    try {
+        await handler.deleteSession(session);
+        return res.json({ success: true });
+    }
+    catch(err) {
+        console.error('Error deleting session:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 module.exports = router;

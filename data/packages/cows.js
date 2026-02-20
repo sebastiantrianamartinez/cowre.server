@@ -9,7 +9,9 @@ class Cow {
             farm: {},
             stats: {},
             shares: [],
-            management: null
+            management: null,
+            status: null,
+            statusNumber: null
         };
     }
 
@@ -19,6 +21,8 @@ class Cow {
         this.packaged.number = cow.number;
         this.packaged.sex = cow.sex == 1 ? 'Hembra' : 'Macho';
         this.packaged.race = cow.raceData ? cow.raceData.name : null;
+        this.packaged.status = cow.status == 1 ? 'inactive' : cow.status == 2 ? 'active' : 'deleted';
+        this.packaged.statusNumber = cow.status;
 
         if(cow.farm){
             this.addFarm(cow.farm);

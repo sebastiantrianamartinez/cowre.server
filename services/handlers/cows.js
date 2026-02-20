@@ -38,7 +38,30 @@ class CowHandler extends BaseHandler {
             }
         });
     }
-            
+
+    async changeStatus(cowId, status) {
+        const cow = await this.model.findByPk(cowId);
+        if (!cow) {
+            throw new Error('Cow not found');
+        }
+
+        cow.status = status;
+        await cow.save();
+
+        return cow;
+    }
+
+    async moveToFarm(cowId, farmId) {
+        const cow = await this.model.findByPk(cowId);
+        if (!cow) {
+            throw new Error('Cow not found');
+        }
+
+        cow.control = farmId;
+        await cow.save();
+
+        return cow;
+    }
 }
 
 module.exports = CowHandler;
