@@ -81,7 +81,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const cowId = req.params.id;
-        const cow = await assembler.assembleById(cowId);
+        const cowAssembler = new CowsAssembler();
+        const cow = await cowAssembler.assembleById(cowId);
         //const cow = await handler.findById(cowId);
 
         if (!cow) {
@@ -109,8 +110,9 @@ router.get("/:limit/:offset", async (req, res) => {
 
 router.get("/shares/:id", async (req, res) => {
     try {
+        const cowAssembler = new CowsAssembler();
         const cowId = req.params.id;
-        const cow = await assembler.assembleForShares(cowId);
+        const cow = await cowAssembler.assembleForShares(cowId);
 
         if (!cow) {
             return res.status(404).json({ error: "Cow not found." });

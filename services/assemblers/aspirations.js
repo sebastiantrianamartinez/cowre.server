@@ -75,7 +75,7 @@ class AspirationsAssembler {
 
     async #loadTransfers(sessionId) {
         const transfers = await this.models.Transfer.findAll({
-            where: { session: sessionId },
+            where: { opu: sessionId },
             include: [
                 {
                     model: this.models.Embryo,

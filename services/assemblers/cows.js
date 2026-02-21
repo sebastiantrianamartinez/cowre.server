@@ -160,6 +160,7 @@ class CowsAssembler {
 
     async #loadFarms(cow) {
         const farmId = cow.control;
+        if(farmId == 0) return;
 
         if (farmId && farmId > 0) {
             const farm = await this.models.Farm.findByPk(farmId);
